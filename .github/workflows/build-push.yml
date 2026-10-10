@@ -2,14 +2,14 @@ name: build-push
 
 on:
   push:
-    branches: [main]
+    branches: [agenthon-t1]
   workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write
       packages: write
     steps:
       - uses: actions/checkout@v4
@@ -22,10 +22,20 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build & push submission image
+      - id: push
+        name: Build & push submission image
         uses: docker/build-push-action@v6
         with:
           context: .
           push: true
           provenance: false
           tags: ghcr.io/woldy/agenthon-t1-sub1:sub1
+
+      - name: Record digest
+        run: |
+          echo "${{ steps.push.outputs.digest }}" > digest.txt
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add digest.txt
+          git commit -m "record digest ${{ steps.push.outputs.digest }} [skip ci]"
+          git push
