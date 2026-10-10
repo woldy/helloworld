@@ -1,0 +1,5 @@
+#!/bin/sh
+# Track 1 verb shim. The harness runs `<image> solve --task-dir ... --out ...`
+# with no ENTRYPOINT, so the verb arrives as argv[0] ($0), not $1 — inject the
+# script's own basename as the leading positional for the CLI parser.
+exec python -m agent.cli "${0##*/}" "$@"
