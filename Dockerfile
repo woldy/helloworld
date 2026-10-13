@@ -1,5 +1,5 @@
 # Agenthon 2026 Track 1 — submission #1 (deterministic, no model; models: [])
-FROM python:3.13-slim@sha256:ad6e4a8b46f191d3c0c6bdb82cabf7068e316e3f87fd59b460d2f0fb503719f7
+FROM python:3.13-slim
 
 LABEL qfbench2.interface_version="2.0" \
       org.opencontainers.image.title="woldywei-agenthon-t1-sub1" \
